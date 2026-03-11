@@ -1,1 +1,38 @@
- 
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: resumeiq_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: resumeiq
+      POSTGRES_USER: resumeiq_user
+      POSTGRES_PASSWORD: resumeiq_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  n8n:
+    image: n8nio/n8n
+    container_name: resumeiq_n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=resumeiq
+      - DB_POSTGRESDB_USER=resumeiq_user
+      - DB_POSTGRESDB_PASSWORD=resumeiq_pass
+    depends_on:
+      - postgres
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  postgres_data:
+  n8n_data:
