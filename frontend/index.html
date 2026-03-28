@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResumeIQ — Recruiter Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- CANVAS BACKGROUND -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-text">Resume<span class="logo-accent">IQ</span></span>
+        <div class="logo-badge">AI Powered</div>
+      </div>
+      <p class="header-sub">Intelligent Recruitment Dashboard</p>
+    </div>
+    <div class="header-right">
+      <div class="stat-pill">
+        <span class="stat-dot"></span>
+        <span id="total-count">0 Candidates</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-dot green"></span>
+        <span>Pipeline Active</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTERS -->
+  <section class="filters-section">
+    <div class="filters-card">
+      <div class="filters-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filter Candidates
+      </div>
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Skills</label>
+          <input type="text" id="filter-skills" placeholder="Python, AWS, React..." />
+        </div>
+        <div class="filter-group">
+          <label>Keyword</label>
+          <input type="text" id="filter-keyword" placeholder="SAP, DevOps, ML..." />
+        </div>
+        <div class="filter-group">
+          <label>Min Experience</label>
+          <input type="number" id="filter-min-exp" placeholder="0 years" min="0" />
+        </div>
+        <div class="filter-group">
+          <label>Max Experience</label>
+          <input type="number" id="filter-max-exp" placeholder="10 years" min="0" />
+        </div>
+        <div class="filter-actions">
+          <button class="btn-primary" onclick="fetchCandidates()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+          <button class="btn-secondary" onclick="resetFilters()">Reset</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS ROW -->
+  <section class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-label">Total Candidates</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value green" id="stat-strong">0</div>
+      <div class="stat-label">Strong Fit</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value blue" id="stat-good">0</div>
+      <div class="stat-label">Good Fit</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value orange" id="stat-partial">0</div>
+      <div class="stat-label">Partial Fit</div>
+    </div>
+  </section>
+
+  <!-- CANDIDATES GRID -->
+  <main class="main-content">
+    <div id="loading" class="loading-state" style="display:none;">
+      <div class="spinner"></div>
+      <p>Analyzing candidates...</p>
+    </div>
+    <div id="empty-state" class="empty-state" style="display:none;">
+      <div class="empty-icon">🔍</div>
+      <p>No candidates found</p>
+      <span>Try adjusting your filters</span>
+    </div>
+    <div id="candidates-grid" class="candidates-grid"></div>
+  </main>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-overlay" onclick="closeModal()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
